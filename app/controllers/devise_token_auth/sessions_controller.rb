@@ -29,6 +29,12 @@ module DeviseTokenAuth
         @resource = resource_class.where(q, q_value).first
       end
 
+      if (@resource.subdomain != request.subdomain) && request.subdomain != "login"
+        Rails.logger.info("Bad credentials @resource.subdomain = #{@resource.subdomain} and request.subdomain = #{request.subdomain}")
+        render_create_error_bad_credentials
+        return
+      end
+
       if @resource and valid_params?(field, q_value) and @resource.valid_password?(resource_params[:password]) and (!@resource.respond_to?(:active_for_authentication?) or @resource.active_for_authentication?)
         # create client id
         @client_id = SecureRandom.urlsafe_base64(nil, false)
