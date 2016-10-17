@@ -30,7 +30,7 @@ module DeviseTokenAuth
       end
 
       if @resource && (!request.subdomain || ((@resource.subdomain != request.subdomain.split('.').first) && request.subdomain.split('.').first != "login"))
-        Rails.logger.info("Bad credentials @resource.subdomain = #{@resource.subdomain} and request.subdomain = #{request.subdomain}")
+        Rails.logger.info("Bad credentials :  @resource.subdomain = #{@resource.subdomain} and request.subdomain = #{request.subdomain}")
         render_create_error_bad_credentials
         return
       end
