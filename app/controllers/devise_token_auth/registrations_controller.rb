@@ -16,6 +16,10 @@ module DeviseTokenAuth
         @resource.email = sign_up_params[:email]
       end
 
+      if !@resource.subdomain
+        @resource.subdomain = request.subdomain
+      end
+
       # give redirect value from params priority
       @redirect_url = params[:confirm_success_url]
 
@@ -42,10 +46,15 @@ module DeviseTokenAuth
           yield @resource if block_given?
 
           unless @resource.confirmed?
+
+            @redirect_url = @redirect_url.gsub(/:\/\/.*?\./, "://#{@resource.subdomain}.")
+            confirmation_link = confirmation_url(@resource, {confirmation_token: "SOME_TOKEN", redirect_url: @redirect_url})
+
             # user will require email authentication
             @resource.send_confirmation_instructions({
               client_config: params[:config_name],
-              redirect_url: @redirect_url
+              redirect_url: @redirect_url,
+              confirmation_link: confirmation_link
             })
 
           else
