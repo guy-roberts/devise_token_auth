@@ -17,8 +17,8 @@ module DeviseTokenAuth
       end
 
       if !@resource.subdomain
-        Rails.logger.info("------> Seting subdomain to " + request.subdomain)
-        @resource.subdomain = request.subdomain
+        Rails.logger.info("------> Setting subdomain to " + request.subdomain)
+        @resource.subdomain = request.subdomain.split('.').first
       end
 
       # give redirect value from params priority
