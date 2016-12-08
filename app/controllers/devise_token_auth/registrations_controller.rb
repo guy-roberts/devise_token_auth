@@ -17,6 +17,7 @@ module DeviseTokenAuth
       end
 
       if !@resource.subdomain
+        Rails.logger.info("------> Seting subdomain to " + request.subdomain)
         @resource.subdomain = request.subdomain
       end
 
