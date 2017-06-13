@@ -29,7 +29,7 @@ module DeviseTokenAuth
         @resource = resource_class.where(q, q_value).first
       end
 
-      if @resource && (!request.subdomain || ((@resource.subdomain != request.subdomain.split('.').first) && request.subdomain.split('.').first != "sign_me_up"))
+      if @resource && (!request.subdomain || ((@resource.subdomain != request.subdomain.split('.').first) && request.subdomain.split('.').first != "sign-me-up"))
         Rails.logger.info("Bad credentials :  @resource.subdomain = #{@resource.subdomain} and request.subdomain = #{request.subdomain}")
         render_create_error_bad_credentials
         return
