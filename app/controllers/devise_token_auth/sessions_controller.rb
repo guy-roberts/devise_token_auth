@@ -30,7 +30,7 @@ module DeviseTokenAuth
       end
 
       if @resource && valid_params?(field, q_value) && (!@resource.respond_to?(:active_for_authentication?) || @resource.active_for_authentication?) \
-        &&  (@resource.subdomain.split.include?(request.subdomain.split('.').first) || request.subdomain.split('.').first != "sign-me-up")
+        &&  (@resource.subdomain.split.include?(request.subdomain.split('.').first) || request.subdomain.split('.').first == "sign-me-up")
 
         valid_password = @resource.valid_password?(resource_params[:password])
         if (@resource.respond_to?(:valid_for_authentication?) && !@resource.valid_for_authentication? { valid_password }) || !valid_password
