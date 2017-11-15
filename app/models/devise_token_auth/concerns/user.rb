@@ -7,7 +7,7 @@ module DeviseTokenAuth::Concerns::User
     @token_equality_cache ||= {}
 
     key = "#{token_hash}/#{token}"
-    
+
     result = @token_equality_cache[key] ||= (::BCrypt::Password.new(token_hash) == token)
     if @token_equality_cache.size > 10000
       @token_equality_cache = {}
@@ -207,6 +207,8 @@ module DeviseTokenAuth::Concerns::User
     end
 
     self.save!
+
+    Rails.logger.debug('----> build_auth_header: sending access-token=' + token);
 
     return {
       DeviseTokenAuth.headers_names[:"access-token"] => token,
